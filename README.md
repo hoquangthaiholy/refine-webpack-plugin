@@ -4,11 +4,12 @@
       src="https://webpack.js.org/assets/icon-square-big.svg">
   </a>
   <h1>Refine Webpack Plugin</h1>
-  <p>Plugin make HTML files based on template with simple syntax. <br><b>Note: This plugin works based on Webpack 4.x with new hook events</b></p>
+  <p>Plugin make HTML files based on template with simple syntax.</p>
 </div>
 
 <h2 align="center">Install</h2>
 
+ <p><b>Note: This plugin only works on Webpack 4.x with new hook events</b></p>
 
 ```bash
   npm i --save-dev refine-webpack-plugin
@@ -21,6 +22,8 @@
 
 
 If you usually create HTML files with the similar components, this plugin is for you. This is a Webpack[webpack](http://webpack.js.org/) plugin that let you generate completely HTML files by using some simple Blade syntaxes inspired from Laravel. This makes an HTML file as the entry in a child compiler. It means it will be independent of other entries in `webpack`.
+
+
 
 <h2 align="center">Usage</h2>
 
