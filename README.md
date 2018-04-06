@@ -5,6 +5,7 @@
   </a>
   <h1>Refine Webpack Plugin</h1>
   <p>Plugin make HTML files based on template with simple syntax. </p>
+  <p>Note: This plugin works based on Webpack 4.x with new hook events</p>
 </div>
 
 <h2 align="center">Install</h2>
