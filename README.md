@@ -59,7 +59,7 @@ Allowed values are as follows
 |**[`template`](#)**|`{String}`|``|`webpack` require path to the template. If this value is not set, the plugin will use a default page from source.|
 |**[`filename`](#)**|`{String}`|``|Output filename. If this value is not set, the plugin will use the filename of temmplate as default.|
 |**[`data`](#)**|`{Object}`|``| This hold all data which will be used in the template. |
-|**[`minify`](#)**|`{Boolean|Object}`|`{Object}`| As default, I prepared some settings for [html-minifier](https://github.com/kangax/html-minifier#options-quick-reference). You will be free to pass your options as object to minify the output. If you don't want to minify the result page. Just set this to `false` |
+|**[`minify`](#)**|`{Boolean\|Object}`|`{Object}`| As default, I prepared some settings for [html-minifier](https://github.com/kangax/html-minifier#options-quick-reference). You will be free to pass your options as object to minify the output. If you don't want to minify the result page. Just set this to `false` |
 
 Let check a use case as follows:
 
