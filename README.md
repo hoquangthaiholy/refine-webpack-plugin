@@ -1,8 +1,3 @@
-[![npm][npm]][npm-url]
-[![node][node]][node-url]
-[![deps][deps]][deps-url]
-[![tests][tests]][tests-url]
-
 <div align="center">
   <a href="https://github.com/webpack/webpack">
     <img width="200" height="200"
