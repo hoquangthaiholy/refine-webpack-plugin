@@ -1,0 +1,23 @@
+{
+  "name": "refine-webpack-plugin",
+  "version": "1.0.0",
+  "description": "Refine HTML Webpack Plugin",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --watch --config ./example/webpack.config.js --env=development",
+    "build": "webpack --config ./example/webpack.config.js --env=production"
+  },
+  "keywords": [],
+  "author": "Theodore <hoquangthaiholy@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "html-minifier": "^3.5.13",
+    "js-beautify": "^1.7.5",
+    "loader-utils": "^1.1.0",
+    "schema-utils": "^0.4.5"
+  },
+  "devDependencies": {
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  }
+}
