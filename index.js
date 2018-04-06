@@ -1,6 +1,5 @@
 const path = require('path');
 const helper = require('./helper');
-const beautify = require('js-beautify');
 const htmlMinifier = require('html-minifier');
 const NodeTargetPlugin = require('webpack/lib/node/NodeTargetPlugin');
 const SingleEntryPlugin = require('webpack/lib/SingleEntryPlugin');
@@ -18,12 +17,13 @@ module.exports = class RefineWebpackPlugin {
 
         // Default options
         this.options = {
-            minimize: false,
-            jsBeautify: {},
-            htmlMinifier: {
+            minify: {
                 removeAttributeQuotes: true,
                 removeComments: true,
-                collapseWhitespace: true
+                collapseWhitespace: true,
+                keepClosingSlash: true,
+                minifyCSS: true,
+                minifyJS: true,
             },
             template: path.resolve(__dirname, './index.html'),
             outputFilename: undefined,
@@ -87,13 +87,9 @@ module.exports = class RefineWebpackPlugin {
                 // Render data
                 asset = helper(asset, this.options.data);
 
-                // HTML-beautify
-                if (!this.options.minimize)
-                    asset = beautify.html(asset, this.options.jsBeautify);
-
                 // HTML-minifier
-                if (this.options.minimize)
-                    asset = htmlMinifier.minify(asset, this.options.htmlMinifier);
+                if (this.options.minify !== false)
+                    asset = htmlMinifier.minify(asset, this.options.minify);
 
                 // Return HTML result
                 compilation.assets[this.options.outputFilename] = {

@@ -9,7 +9,6 @@ const loaderUtils = require('loader-utils');
  * @param {*} meta 
  */
 module.exports = function (content, map, meta) {
-    const options = loaderUtils.getOptions(this) || {};
     const callback = this.async();
 
     content = JSON.stringify(content);
