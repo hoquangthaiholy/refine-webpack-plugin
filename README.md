@@ -47,18 +47,7 @@ module.exports = {
 
 This will generate a file `dist/index.html` which following your template:
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Refine Page</title>
-  </head>
-  <body>
-    
-  </body>
-</html>
-```
+![GitHub Logo](https://github.com/hoquangthaiholy/refine-webpack-plugin/blob/master/default.png)
 
 <h2 align="center">Options</h2>
 
