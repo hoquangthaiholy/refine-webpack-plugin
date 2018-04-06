@@ -26,15 +26,15 @@ module.exports = class RefineWebpackPlugin {
                 minifyJS: true,
             },
             template: path.resolve(__dirname, './index.html'),
-            outputFilename: undefined,
+            filename: undefined,
             data: {}
         };
 
         // Merge options
         for (var option in options) { this.options[option] = options[option]; }
 
-        // If outputFilename is not available, use template filename instead.
-        this.options.outputFilename = this.options.outputFilename || this.options.template.replace(/^.*[\\\/]/, '');
+        // If filename is not available, use template filename instead.
+        this.options.filename = this.options.filename || this.options.template.replace(/^.*[\\\/]/, '');
     }
 
     apply(compiler) {
@@ -42,14 +42,14 @@ module.exports = class RefineWebpackPlugin {
 
             // Creating child compiler with params
             const childCompiler = compilation.createChildCompiler(compilerName, {
-                filename: this.options.outputFilename
+                filename: this.options.filename
             });
 
             // Add plugins to make all this work
             new NodeTemplatePlugin(this).apply(childCompiler);
             new NodeTargetPlugin().apply(childCompiler);
             new LibraryTemplatePlugin(null, 'commonjs2').apply(childCompiler);
-            new SingleEntryPlugin(compiler.context, this.options.template, this.options.outputFilename).apply(childCompiler);
+            new SingleEntryPlugin(compiler.context, this.options.template, this.options.filename).apply(childCompiler);
             new LoaderTargetPlugin('node').apply(childCompiler);
 
             // Add refine loader in child compiler
@@ -79,10 +79,10 @@ module.exports = class RefineWebpackPlugin {
 
         compiler.hooks.emit.tapAsync(pluginName, (compilation, callback) => {
 
-            if (compilation.assets[this.options.outputFilename]) {
-                var asset = eval(compilation.assets[this.options.outputFilename].source());
+            if (compilation.assets[this.options.filename]) {
+                var asset = eval(compilation.assets[this.options.filename].source());
                 // Delete delete our asset from output
-                delete compilation.assets[this.options.outputFilename];
+                delete compilation.assets[this.options.filename];
 
                 // Render data
                 asset = helper(asset, this.options.data);
@@ -92,7 +92,7 @@ module.exports = class RefineWebpackPlugin {
                     asset = htmlMinifier.minify(asset, this.options.minify);
 
                 // Return HTML result
-                compilation.assets[this.options.outputFilename] = {
+                compilation.assets[this.options.filename] = {
                     source() { return asset; },
                     size() { return Buffer.byteLength(asset, 'utf8'); }
                 };
