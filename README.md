@@ -50,7 +50,7 @@ module.exports = {
 
 This will generate a file `dist/index.html` which following your template:
 
-![alt text](https://www.dropbox.com/s/tsp7kl3l1ti2i6o/default.png?dl=1)
+![alt text](https://github.com/hoquangthaiholy/refine-webpack-plugin/raw/master/default.png)
 
 <h2 align="center">Options</h2>
 
