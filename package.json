@@ -1,6 +1,6 @@
 {
   "name": "refine-webpack-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Refine Webpack Plugin",
   "main": "index.js",
   "bugs": "https://github.com/hoquangthaiholy/refine-webpack-plugin/issues",
