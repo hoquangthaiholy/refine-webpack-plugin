@@ -1,33 +1,22 @@
-<div align="center">
-  <a href="https://github.com/webpack/webpack">
-    <img width="200" height="200"
-      src="https://webpack.js.org/assets/icon-square-big.svg">
-  </a>
-  <h1>Refine Webpack Plugin</h1>
-  <p>Plugin make HTML files based on template with simple syntax.</p>
-</div>
+<img style="width:100%; margin: 0 auto" width="200" height="200"   src="https://webpack.js.org/assets/icon-square-big.svg">
+<h1 style="text-align: center;">Refine Webpack Plugin</h1>
+<h2 style="text-align: center;">Refine Asset Plugin for Webpack 4.x</h2>
 
-<h2 align="center">Install</h2>
+If you must to create HTML files with the similar parts, work with SCSS/SASS everyday but you coun't find [HTML Webpack Plugin](https://github.com/jantimon/html-webpack-plugin) is enough for you and you love [Laravel-Mix](https://github.com/JeffreyWay/laravel-mix), this plugin is for you. This is not a replacement of them but provides a simpler way to do that easier with Webpack 4.x which is faster and significantly smaller result. This is a [webpack](http://webpack.js.org/) plugin that let you generate assets (HTML/SCSS/SASS and so on) by using a child compiler. It means it will be independent of other entries in `webpack`.
 
- <p><b>Note: This plugin only works on Webpack 4.x with new hook events</b></p>
+Install
+==
+
+**Note: As I said, this plugin only works on Webpack 4.x with new hook events**
 
 ```bash
   npm i --save-dev refine-webpack-plugin
 ```
 
-```bash
-  yarn add --dev refine-webpack-plugin
-```
+Usage
+=
 
-
-
-If you usually create HTML files with the similar components, this plugin is for you. This is a Webpack[webpack](http://webpack.js.org/) plugin that let you generate completely HTML files by using some simple Blade syntaxes inspired from Laravel. This makes an HTML file as the entry in a child compiler. It means it will be independent of other entries in `webpack`.
-
-
-
-<h2 align="center">Usage</h2>
-
-The plugin will generate an HTML file for you that includes all your `webpack` as a child compiler. Just add the plugin to your `webpack`
+The plugin will generate assets for you that includes all your `webpack` as a child compiler. Just add the plugin to your `webpack`
 config as follows:
 
 **webpack.config.js**
@@ -41,30 +30,35 @@ module.exports = {
     filename: 'index.js'
   },
   plugins: [
-    new RefineWebpackPlugin({
-      template: './src/view/index.html'
-    })
+    new RefineWebpackPlugin()
   ]
 }
 ```
 
-This will generate a file `dist/index.html` which following your template:
+It's simple, right? As default, the plugin will detect the extension of input file to make proper output. You're always free to set `type` to change it. In this example. it will generate a file `dist/index.html` with default template I prepared in my source code:
 
 ![alt text](https://github.com/hoquangthaiholy/refine-webpack-plugin/raw/master/default.png)
 
-<h2 align="center">Options</h2>
+Options
+=
 
-You can pass a set of configuration options to `refine-webpack-plugin`.
+You can pass a set of configuration options to `refine-webpack-plugin`. You can only pass a `{String}` as input filename or a `{Object}`.
 Allowed values are as follows
 
 |Name|Type|Default|Description|
 |:--:|:--:|:-----:|:----------|
-|**[`template`](#)**|`{String}`|``|`webpack` require path to the template. If this value is not set, the plugin will use a default page from source.|
-|**[`filename`](#)**|`{String}`|``|Output filename. If this value is not set, the plugin will use the filename of temmplate as default.|
-|**[`data`](#)**|`{Object}`|``| This hold all data which will be used in the template. |
-|**[`minify`](#)**|`{Boolean\|Object}`|`{Object}`| As default, I prepared some settings for [html-minifier](https://github.com/kangax/html-minifier#options-quick-reference). You will be free to pass your options as object to minify the output. If you don't want to minify the result page. Just set this to `false` |
+|**[`input`](#)**|`{String}`|`~index.html`|`webpack` require path to the input file. If this value is not set, the plugin will use a default HTML page from source.|
+|**[`type`](#)**|`{String}`|``|Output filetype. If this value is not set, the plugin will use input file extension.|
+|**[`output`](#)**|`{String}`|``|Output filename. If this value is not set, the plugin will use the input filename.|
+|**[`data`](#)**|`{Object}`|`{}`| This hold all data which will be used in the template. |
+|**[`htmlOptions`](#)**|`{Boolean\|Object}`|`{Object}`| I prepared some settings for [html-minifier](https://github.com/kangax/html-minifier#options-quick-reference). You will be free to pass your options as object to minify the output. If you don't want to minify the result page. Just set this to `false` |
+|**[`sassOptions`](#)**|`{Object}`|`{Object}`| You can pass [node-sass](https://github.com/sass/node-sass)'s options here |
 
-Let check a use case as follows:
+In the first time, I tried to integrate [js-beautify](https://github.com/beautify-web/js-beautify) to generate better-looking HTML, but I found this is not neccesary. You can use your IDE's auto formatting for this.
+
+Example
+=
+Let check an example:
 
 **webpack.config.js**
 ```js
@@ -76,7 +70,7 @@ Let check a use case as follows:
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: './src/index.html',
+      input: './src/index.html',
       data: {
         name: 'Alice'
       }
@@ -165,9 +159,9 @@ This is result page
 
 Please check example folder for the working example.
 
-### `Generating Multiple HTML Files`
+### `Generating Multiple Asset Files`
 
-To generate more than one HTML file, declare the plugin more than once in your plugins array. Each instance of plugin will be a child compiler of the main `webpack` process
+To generate more than one asset file, declare the plugin more than once in your plugins array. Each instance of plugin will be a child compiler of the main `webpack` process
 
 **webpack.config.js**
 ```js
@@ -178,24 +172,25 @@ To generate more than one HTML file, declare the plugin more than once in your p
     filename: 'index.js'
   },
   plugins: [
-    // Generates default index.html
-    new RefineWebpackPlugin({
-      template: 'src/views/index.html'
-    }),
-    // Also generate a second.html
+    // Pass just a string for input filepath
+    new RefineWebpackPlugin('./src/views/index.html'),
+    // Generate a second.html as test.html
     new RefineWebpackPlugin({  
-      filename: 'test.html',
-      template: 'src/views/second.html'
-    })
+      input: './src/views/second.html',
+      output: 'test.html',
+    }),
+    // Also generate a SCSS/SASS file
+    new RefineWebpackPlugin('./src/scss/app.scss'), 
   ]
 }
 ```
 
-### `Syntax`
+Syntax
+=
+HTML
+-
 
-As I said before, I write this plugin to help those who work with HTML files. I provide some simple syntax to make our life easier.
-
-I will add new helpers in the next version soon.
+I provide some simple heplers. More helper will come soon.
 
 **Include a subview**
 ```php
@@ -206,11 +201,17 @@ I will add new helpers in the next version soon.
 ```html
 {{ name }} 
 <!-- Alice -->
+{{ 1 + 1 }}
+<!-- 2 -->
+{{ '1' + '1' }}
+<!-- '11' -->
+{{ 'Hello ' + name }}
+<!-- Hello Alice -->
 {{ fullname }} 
 <!-- if this variable is undefined, result is empty. -->
 ```
 
-**Conditional statement (soon)**
+**Conditional statement (coming soon)**
 ```php
 @if (number % 2 == 0)
   Even
@@ -219,7 +220,7 @@ I will add new helpers in the next version soon.
 @endif
 ```
 
-**Loop statement (soon)**
+**Loop statement (coming soon)**
 ```html
 @each (user in users)
   <li>{{ user.name }}</li>
@@ -229,6 +230,8 @@ Contributing
 ---
 
 I open a bug report to creating a pull request: **every contribution is appreciated and welcome**. If you're planing to implement a new feature or change the api please create an issue first. This way we can ensure that your precious work is not in vain.
+
+If you like my work and want to distibute your skill with this project. Give me a hand to make this better. 
 
 License
 ---

@@ -10,12 +10,7 @@ module.exports = env => {
             filename: 'app.js'
         },
         plugins: [
-            new RefineWebpackPlugin({
-                input: './example/views/index.html',
-                data: {
-                    name: 'Alice'
-                }
-            }),
+            new RefineWebpackPlugin('./example/views/index.html'),
             new RefineWebpackPlugin({
                 input: './example/views/second.html',
                 data: {

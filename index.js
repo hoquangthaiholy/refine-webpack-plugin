@@ -14,10 +14,18 @@ const compilerName = 'RefineCompiler';
 
 module.exports = class RefineWebpackPlugin {
 
-    constructor(options = {}) {
+    /**
+     * Constructor
+     * @param {String|Object} options Pass options for plugins. If you pass a string. It will be set to input filename automaticly.
+     */
+    constructor(options) {
+        // Detect if options just only file input
+        if (typeof options === 'string')
+            options = { input: options }
 
-        // Default options
-        this.options = {
+        // Merge with default options
+        this.options = Object.assign({
+            type: undefined,
             sassOptions: {},
             htmlOptions: {
                 removeComments: true,
@@ -29,13 +37,12 @@ module.exports = class RefineWebpackPlugin {
             data: {},
             input: path.resolve(__dirname, './index.html'),
             output: undefined,
-        };
+        }, options);
 
-        // Merge options
-        for (var option in options) { this.options[option] = options[option]; }
+        // Get input file extension
+        this.extension = type || this.options.input.split('.').pop();
 
-        this.extension = this.options.input.split('.').pop();
-
+        // Mapping output file extension
         var extMap = {
             htm: 'html',
             html: 'html',
@@ -43,7 +50,7 @@ module.exports = class RefineWebpackPlugin {
             sacc: 'css'
         }
 
-        // If output is not available, use input output instead.
+        // If output is not set, use input instead.
         this.options.output = this.options.filename || this.options.input.split('/').pop().split('.')[0] + '.' + extMap[this.extension];
     }
 
@@ -83,10 +90,6 @@ module.exports = class RefineWebpackPlugin {
                 }
             });
 
-            childCompiler.hooks.compilation.tap(compilerName, (compilation) => {
-
-            });
-
             // Run child compilation
             childCompiler.runAsChild(callback);
         });
@@ -94,7 +97,7 @@ module.exports = class RefineWebpackPlugin {
         compiler.hooks.emit.tapAsync(pluginName, (compilation, callback) => {
 
             if (compilation.assets[this.options.output]) {
-                console.log(this.options.output);
+                // Evaluate source to get real content
                 var asset = eval(compilation.assets[this.options.output].source());
                 // Delete delete our asset from output
                 delete compilation.assets[this.options.output];
@@ -109,6 +112,8 @@ module.exports = class RefineWebpackPlugin {
                 }
 
                 switch (this.extension) {
+
+                    // Handle HTML content
                     case 'htm':
                     case 'html':
                         // Render data
@@ -120,8 +125,11 @@ module.exports = class RefineWebpackPlugin {
 
                         output(asset);
                         break;
+
+                    // Handle SCSS/SASS content
                     case 'sass':
                     case 'scss':
+                        // Set content will be handled by node-sass
                         this.options.sassOptions.data = asset;
                         sass.render(this.options.sassOptions, (err, result) => {
                             if (result) output(result.css); else output('');
