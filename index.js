@@ -40,7 +40,7 @@ module.exports = class RefineWebpackPlugin {
         }, options);
 
         // Get input file extension
-        this.extension = type || this.options.input.split('.').pop();
+        this.extension = this.options.type || this.options.input.split('.').pop();
 
         // Mapping output file extension
         var extMap = {
