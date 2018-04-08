@@ -11,13 +11,19 @@ module.exports = env => {
         },
         plugins: [
             new RefineWebpackPlugin({
-                template: './example/views/index.html',
+                input: './example/views/index.html',
                 data: {
                     name: 'Alice'
                 }
             }),
             new RefineWebpackPlugin({
-                template: './example/views/second.html'
+                input: './example/views/second.html',
+                data: {
+                    name: 'John'
+                }
+            }),
+            new RefineWebpackPlugin({
+                input: './example/scss/app.scss'
             })
         ]
     }

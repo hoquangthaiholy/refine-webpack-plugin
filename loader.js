@@ -13,6 +13,12 @@ module.exports = function (content, map, meta) {
 
     content = JSON.stringify(content);
 
+    // SASS/SCSS Import Syntax
+    content = content.replace(/@import +['"](\S+)['"];/g, (group, file) => {
+        return `\" + require('${loaderUtils.urlToRequest(file)}') + \"`;
+    })
+
+    // HTML Import Syntax
     content = content.replace(/@include\(['" ]*(.[^ ]*)['" ]*\)/g, (group, file) => {
         return `\" + require('${loaderUtils.urlToRequest(file)}') + \"`;
     })
